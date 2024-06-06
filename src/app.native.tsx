@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import WebView from 'react-native-webview';
 import { PostcodeProps } from './types';
 import { Linking, View } from 'react-native';
@@ -51,8 +50,13 @@ const html = `
 </html>
 `;
 
-const Postcode: React.FC<PostcodeProps> = (props: PostcodeProps) => {
-  const { jsOptions, onSelected, onError, style, ...otherProps } = props;
+const Postcode: React.FC<PostcodeProps> = ({ 
+  jsOptions = { hideMapBtn: true }, 
+  onSelected, 
+  onError, 
+  style, 
+  ...otherProps 
+}) => {
   const injectedJavaScript = React.useMemo(() => `initOnReady(${JSON.stringify(jsOptions)});void(0);`, [jsOptions]);
 
   const onMessage = React.useCallback(
@@ -93,12 +97,6 @@ const Postcode: React.FC<PostcodeProps> = (props: PostcodeProps) => {
       />
     </View>
   );
-};
-
-Postcode.defaultProps = {
-  jsOptions: {
-    hideMapBtn: true,
-  },
 };
 
 export default Postcode;
